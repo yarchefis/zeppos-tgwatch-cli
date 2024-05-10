@@ -16,7 +16,7 @@
 
 ```cp -r zeppos-tgwatch-cli/* tg_cli/```    
 
-```echo "#!/bin/bash" > run.sh```    
+```echo "#\!/bin/bash" > run.sh```    
 
 ```echo "cd ~/tg_cli && python main.py" >> run.sh```    
 
