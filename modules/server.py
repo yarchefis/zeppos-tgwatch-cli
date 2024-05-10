@@ -239,9 +239,10 @@ async def get_chat(api_id, api_hash, chat_id, max_msg):
                 elif isinstance(message.sender, Channel):
                     sender_name = message.sender.title  # Для каналов используем атрибут title
             you = True if message.sender_id == me.id else False
+            message_text = message.text if message.text else None  # Проверяем наличие текста
             message_data = {
                 'id': message.id,
-                'text': message.text,
+                'text': message_text,
                 'sender_id': message.sender_id,
                 'sender_name': sender_name,
                 'date': message.date.timestamp(),
@@ -263,6 +264,7 @@ async def get_chat(api_id, api_hash, chat_id, max_msg):
                     message_data['text'] += "\n(СТИКЕР)"
             messages_list.append(message_data)
         return json.dumps(messages_list, ensure_ascii=False, indent=4).encode('utf-8')
+
 
 
 def start_http_server():
