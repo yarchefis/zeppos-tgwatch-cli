@@ -6,7 +6,7 @@
 
 ```cd```    
 
-```git clone https://github.com/yarchefis/tgwatch_cli_server```    
+```git clone https://github.com/yarchefis/zeppos-tgwatch-cli```    
 
 ```python3 -m venv tg_cli```    
 
