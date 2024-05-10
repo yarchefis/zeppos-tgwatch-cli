@@ -14,7 +14,7 @@
 
 ```pip install telethon prompt_toolkit art```    
 
-```cp -r tgwatch_cli_server/* tg_cli/```    
+```cp -r zeppos-tgwatch-cli/* tg_cli/```    
 
 ```echo "#!/bin/bash" > run.sh```    
 
