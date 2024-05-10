@@ -22,7 +22,7 @@ source tg_cli/bin/activate
 pip install telethon prompt_toolkit art
 
 # Перемещаем файлы из tgwatch_cli_server в tg_cli
-mv -r tgwatch_cli_server/* tg_cli/
+cp -r tgwatch_cli_server/* tg_cli/
 
 echo "#!/bin/bash" > run.sh
 echo "cd ~/tg_cli && python main.py" >> run.sh
