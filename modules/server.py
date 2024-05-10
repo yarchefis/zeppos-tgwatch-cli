@@ -239,7 +239,7 @@ async def get_chat(api_id, api_hash, chat_id, max_msg):
                 elif isinstance(message.sender, Channel):
                     sender_name = message.sender.title  # Для каналов используем атрибут title
             you = True if message.sender_id == me.id else False
-            message_text = message.text if message.text else None  # Проверяем наличие текста
+            message_text = message.text if message.text else 'серверное сообщение или оно пустое'  # Проверяем наличие текста
             message_data = {
                 'id': message.id,
                 'text': message_text,
