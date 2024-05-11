@@ -9,6 +9,7 @@
 копируем и вставляем    
 ```pkg update -y``` выполнение может остановится, нажимай enter чтобы продолжить
 
+перед выполнением всех команд перейдите в главную директорию введя cd
 далее копируем все что ниже
 ```
 apt install git python3 python-pip -y && git clone https://github.com/yarchefis/zeppos-tgwatch-cli && pip install telethon prompt_toolkit art --break-system-packages
