@@ -37,7 +37,8 @@ async def main():
         me = await client.get_me()
         logo = text2art("TGWATCH")
         print(logo)
-        print("Ваш id:", me.id, 'Если вы видите цифры значит вы все успешно настроили.')
+        print("Ваш id:", me.id)
+        print('Если вы видите цифры значит вы все успешно настроили.')
 
     # Запускаем HTTP-сервер в отдельном потоке
     http_server_thread = threading.Thread(target=run_http_server)
