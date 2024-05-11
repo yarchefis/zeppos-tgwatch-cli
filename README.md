@@ -12,11 +12,7 @@
 
 ```cd```    
 
-```git clone https://github.com/yarchefis/zeppos-tgwatch-cli```    
-
-```python3 -m venv tg_cli```    
-
-```source tg_cli/bin/activate```    
+```git clone https://github.com/yarchefis/zeppos-tgwatch-cli && python3 -m venv tg_cli && source tg_cli/bin/activate```    
 
 ```pip install telethon prompt_toolkit art```    
 
