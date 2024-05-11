@@ -35,9 +35,9 @@ async def main():
         # Получаем информацию о себе
         os.system("cls" if os.name == "nt" else "clear")
         me = await client.get_me()
-        print("Ваш id:", me.id, 'а это значит что все работает отлично.')
         logo = text2art("TGWATCH")
         print(logo)
+        print("Ваш id:", me.id, 'Если вы видите цифры значит вы все успешно настроили.')
 
     # Запускаем HTTP-сервер в отдельном потоке
     http_server_thread = threading.Thread(target=run_http_server)
