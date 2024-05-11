@@ -12,10 +12,8 @@
 
 ```apt install git python3 python-pip -y && git clone https://github.com/yarchefis/zeppos-tgwatch-cli && pip install telethon prompt_toolkit art --break-system-packages``` 
 
-```
-echo "#\!/bin/bash" > run.sh
+```echo "#\!/bin/bash" > run.sh
 echo "cd ~/zeppos-tgwatch-cli && python main.py" >> run.sh  
-chmod +x run.sh
-```
+chmod +x run.sh```
 
 запускай просто ./run.sh
