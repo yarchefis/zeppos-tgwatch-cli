@@ -9,11 +9,19 @@
 копируем и вставляем    
 ```pkg update -y``` выполнение может остановится, нажимай enter чтобы продолжить
 
+далее копируем все что ниже
+```
+apt install git python3 python-pip -y && git clone https://github.com/yarchefis/zeppos-tgwatch-cli && pip install telethon prompt_toolkit art --break-system-packages
+``` 
 
-```apt install git python3 python-pip -y && git clone https://github.com/yarchefis/zeppos-tgwatch-cli && pip install telethon prompt_toolkit art --break-system-packages``` 
-
-```echo "#\!/bin/bash" > run.sh
+и последнее
+```
+echo "#\!/bin/bash" > run.sh
 echo "cd ~/zeppos-tgwatch-cli && python main.py" >> run.sh  
-chmod +x run.sh```
+chmod +x run.sh
+```
 
-запускай просто ./run.sh
+убедись что ты находишься там где создался файл run.sh
+проверить можно командой ```ls```
+после чего запусти его, сервер запустится.
+ ./run.sh
