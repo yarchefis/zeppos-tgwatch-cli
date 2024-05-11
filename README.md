@@ -18,6 +18,8 @@
 
 ```cp -r zeppos-tgwatch-cli/* tg_cli/```    
 
+```rm -rf zeppos-tgwatch-cli/```    
+
 ```
 echo "#\!/bin/bash" > run.sh
 echo "source ~/tg_cli/bin/activate" >> run.sh
