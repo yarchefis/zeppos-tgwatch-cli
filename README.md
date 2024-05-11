@@ -7,7 +7,7 @@
 ```
 # установка(термукс)
 копируем и вставляем    
-```pkg update -y``` выполнение может остановится, нажимай enter чтобв продолжить
+```pkg update -y``` выполнение может остановится, нажимай enter чтобы продолжить
 
 
 ```apt install git python3 python-pip -y && git clone https://github.com/yarchefis/zeppos-tgwatch-cli && pip install telethon prompt_toolkit art --break-system-packages``` 
