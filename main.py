@@ -6,7 +6,6 @@ from modules import first_setup, connect_watch, server
 from telethon import TelegramClient
 from prompt_toolkit import prompt
 from art import *
-import git
 
 # Функция для запуска HTTP-сервера в отдельном потоке
 def run_http_server():
@@ -20,32 +19,11 @@ def signal_handler(sig, frame):
     print("\nПрограмма завершена.")
     os._exit(0)
 
-# Функция для проверки обновлений в репозитории Git
-def check_for_updates():
-    repo = git.Repo(search_parent_directories=True)
-    origin = repo.remotes.origin
-    origin.fetch()
-    if repo.is_dirty():
-        print("В вашем репозитории есть изменения, пожалуйста, сохраните их перед обновлением.")
-        return False
-    else:
-        head = repo.head.reference
-        if len(list(repo.iter_commits(f"{head}@{{upstream}}..{head}"))) > 0:
-            print("В репозитории есть обновления.")
-            return True
-        else:
-            print("Ваш репозиторий обновлен до последней версии.")
-            return False
 
 # Асинхронная функция для запуска Telethon
 async def main():
     # Устанавливаем обработчик сигнала прерывания
     signal.signal(signal.SIGINT, signal_handler)
-
-    # Проверяем обновления в репозитории Git
-    if check_for_updates():
-        print("Инструкции по обновлению...")
-        return
 
     # Проверяем, существует ли файл сессии
     if not os.path.exists("session_file.session"):
