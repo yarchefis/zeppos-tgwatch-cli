@@ -152,7 +152,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
 
             # Отправляем сообщение в указанный чат
             asyncio.run(send_message(api_id, api_hash, chat_id, message_text))
-            self.wfile.write(b'Message sent successfully')
+            self.wfile.write(json.dumps({'status': 1, 'message': 'well done'}).encode('utf-8'))
         
         elif self.path.startswith('/api/getme'):
             if 'Content-Length' not in self.headers:
