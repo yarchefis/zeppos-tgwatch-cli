@@ -9,6 +9,17 @@ from urllib.parse import urlparse, parse_qs
 import urllib.parse
 
 class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == '/':
+            # Обрабатываем запрос к корневому URL
+            self.send_response(200)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            self.wfile.write(b'Hello, world!')
+        else:
+            # Если URL не корневой, возвращаем 404
+            self.send_error(404, "Not Found")
+            
     def do_POST(self):
         parsed_url = urlparse(self.path)
         path_components = parsed_url.path.split('/')
