@@ -30,7 +30,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(400)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(b'Missing request body')
+                self.wfile.write(json.dumps({'status': 0, 'message': 'missing body'}).encode('utf-8'))
                 return
 
             content_length = int(self.headers['Content-Length'])
@@ -38,7 +38,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(400)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(b'Empty request body')
+                self.wfile.write(json.dumps({'status': 0, 'message': 'empty body'}).encode('utf-8'))
                 return
 
             # Получаем данные из тела запроса
@@ -50,7 +50,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(403)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(b'Access denied')
+                self.wfile.write(json.dumps({'status': 0, 'message': 'error key'}).encode('utf-8'))
                 return
 
             # Если ключ совпадает, продолжаем обработку запроса
@@ -75,7 +75,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(400)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(b'Missing request body')
+                self.wfile.write(json.dumps({'status': 0, 'message': 'missing body'}).encode('utf-8'))
                 return
 
             content_length = int(self.headers['Content-Length'])
@@ -83,7 +83,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(400)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(b'Empty request body')
+                self.wfile.write(json.dumps({'status': 0, 'message': 'empty body'}).encode('utf-8'))
                 return
 
             # Получаем данные из тела запроса
@@ -95,7 +95,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(403)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(b'Access denied')
+                self.wfile.write(json.dumps({'status': 0, 'message': 'error key'}).encode('utf-8'))
                 return
 
             # Если ключ совпадает, продолжаем обработку запроса
@@ -117,7 +117,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(400)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(b'Missing request body')
+                self.wfile.write(json.dumps({'status': 0, 'message': 'missing body'}).encode('utf-8'))
                 return
 
             content_length = int(self.headers['Content-Length'])
@@ -125,7 +125,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(400)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(b'Empty request body')
+                self.wfile.write(json.dumps({'status': 0, 'message': 'empty body'}).encode('utf-8'))
                 return
 
             # Получаем данные из тела запроса
@@ -137,7 +137,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(403)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(b'Access denied')
+                self.wfile.write(json.dumps({'status': 0, 'message': 'error key'}).encode('utf-8'))
                 return
 
             # Если ключ совпадает, продолжаем обработку запроса
@@ -159,7 +159,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(400)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(b'Missing request body')
+                self.wfile.write(json.dumps({'status': 0, 'message': 'missing body'}).encode('utf-8'))
                 return
 
             content_length = int(self.headers['Content-Length'])
@@ -167,7 +167,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(400)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(b'Empty request body')
+                self.wfile.write(json.dumps({'status': 0, 'message': 'empty body'}).encode('utf-8'))
                 return
 
             # Получаем данные из тела запроса
@@ -179,7 +179,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(403)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(b'Access denied')
+                self.wfile.write(json.dumps({'status': 0, 'message': 'error key'}).encode('utf-8'))
                 return
             
             self.send_response(200)
