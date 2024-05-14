@@ -82,7 +82,7 @@ async def main():
             with open('config.py', 'w') as f:
                 f.writelines(lines)
         elif command == "100":
-            keykey = input("какой ты находчивый) укажи ключ: ")
+            keykey = input("какой ты находчивый) укажи ключ потом перезапусти приложение!: ")
 
             with open('config.py', 'r') as f:
                 lines = f.readlines()
