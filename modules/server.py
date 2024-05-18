@@ -3,7 +3,7 @@ import socketserver
 from telethon import TelegramClient
 from telethon.tl.types import User, Channel
 import json
-import config  # Импортируем переменные api_id, api_hash и key из config.py
+import config
 import asyncio
 from urllib.parse import urlparse, parse_qs
 import urllib.parse
@@ -199,7 +199,8 @@ async def get_me(api_id, api_hash):
         return {
             'id': me.id,
             'first_name': me.first_name,
-            'last_name': me.last_name
+            'last_name': me.last_name,
+            'pass': config.passwd
         }
 
 
@@ -284,7 +285,7 @@ def start_http_server():
     # Задаем адрес и порт для сервера
     Handler = MyHttpRequestHandler
     with socketserver.TCPServer(("", PORT), Handler) as httpd:
-        print("HTTP-сервер запущен на порту", PORT)
+        print("Сервер успешно запущен на порту", PORT)
         # Ожидаем запросов
         httpd.serve_forever()
 

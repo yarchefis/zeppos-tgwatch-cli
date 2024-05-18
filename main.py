@@ -12,7 +12,7 @@ def run_http_server():
     try:
         server.start_http_server()
     except Exception as e:
-        print("Ошибка при запуске HTTP-сервера:", e)
+        print("Упс, ошибка! Давай перезапустим программу: нажми 9 а потом enter и запусти еще раз. Если повторится эта же ошибка попробуй перезапустить телефон", e)
 
 # Функция для обработки сигнала прерывания
 def signal_handler(sig, frame):
@@ -41,7 +41,7 @@ async def main():
         # Получаем информацию о себе
         os.system("cls" if os.name == "nt" else "clear")
         me = await client.get_me()
-        logo = text2art("TGWATCH")
+        logo = text2art("TgWatch")
         print(logo)
         print("Ваш id:", me.id)
         print('Если вы видите цифры значит вы все успешно настроили.')
@@ -49,9 +49,20 @@ async def main():
     # Запускаем HTTP-сервер в отдельном потоке
     http_server_thread = threading.Thread(target=run_http_server)
     http_server_thread.start()
-
+    menu_text = (
+        "------------------\n"
+        "  Меню программы\n"
+        "------------------\n"
+        "Пожалуйста, выберите одну из следующих опций и введите соответствующий номер команды:\n\n"
+        "1 - Подключить/переподключить часы\n"
+        "2 - Изменить значения конфигурации\n"
+        "8 - Сброс\n"
+        "9 - Выход\n"
+        "Введите номер команды: "
+    )
     while True:
-        command = await asyncio.to_thread(prompt, "Выберите код команды и введите его:\n1 - подключить/переподключить часы\n2 - изменить значения конфига\n8 - сброс\n9 - выход\n")
+        command = await asyncio.to_thread(input, menu_text)
+        # command = await asyncio.to_thread(prompt, "Выберите код команды и введите его:\n1 - подключить/переподключить часы\n2 - изменить значения конфига\n8 - сброс\n9 - выход\n")
         if command == '1':
             connect_watch.start_server_connect()
         elif command == "9":
@@ -64,8 +75,8 @@ async def main():
             if os.path.exists("session_file.session"):
                 os.remove("session_file.session")
             os.system("cls" if os.name == "nt" else "clear")
-            print("Сервер был обнулен!")
-            print("Введите 9 чтобы завершить программу, а зтем запустите ее еще раз!")
+            print("Все файлы были стерты до завода.")
+            print("Введите 9 и enter чтобы завершить программу, а зтем запустите ее еще раз!")
         elif command == "2":
             chats_per_page = input("Введите кол-во чатов на одной странице (для mi band 7 оптимальное значение 10): ")
             max_msg = input("Введите кол-во сообщений (для mi band 7 оптимальное значение 10): ")
@@ -82,7 +93,7 @@ async def main():
             with open('config.py', 'w') as f:
                 f.writelines(lines)
         elif command == "100":
-            keykey = input("какой ты находчивый) укажи ключ потом перезапусти приложение!: ")
+            keykey = input("Укажи ключ потом перезапусти приложение!: ")
 
             with open('config.py', 'r') as f:
                 lines = f.readlines()
