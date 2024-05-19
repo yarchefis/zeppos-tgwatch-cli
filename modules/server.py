@@ -188,6 +188,72 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
             user_info = asyncio.run(get_me(api_id, api_hash))
             self.wfile.write(json.dumps(user_info, ensure_ascii=False, indent=4).encode('utf-8'))
 
+        elif self.path.startswith('/api/setpass'):
+            if 'Content-Length' not in self.headers:
+                self.send_response(400)
+                self.send_header('Content-type', 'text/plain')
+                self.end_headers()
+                self.wfile.write(json.dumps({'status': 0, 'message': 'missing body'}).encode('utf-8'))
+                return
+
+            content_length = int(self.headers['Content-Length'])
+            if content_length == 0:
+                self.send_response(400)
+                self.send_header('Content-type', 'text/plain')
+                self.end_headers()
+                self.wfile.write(json.dumps({'status': 0, 'message': 'empty body'}).encode('utf-8'))
+                return
+
+            # Получаем данные из тела запроса
+            body = self.rfile.read(content_length).decode('utf-8')
+            request_data = json.loads(body)
+
+            # Проверяем наличие необходимых ключей в теле запроса
+            if 'key' not in request_data or 'passwd' not in request_data:
+                self.send_response(400)
+                self.send_header('Content-type', 'text/plain')
+                self.end_headers()
+                self.wfile.write(json.dumps({'status': 0, 'message': 'missing key or passwd'}).encode('utf-8'))
+                return
+
+            # Проверяем ключ API
+            if request_data['key'] != config.key:
+                self.send_response(403)
+                self.send_header('Content-type', 'text/plain')
+                self.end_headers()
+                self.wfile.write(json.dumps({'status': 0, 'message': 'error key'}).encode('utf-8'))
+                return
+
+            # Получаем пароль
+            passwd = request_data['passwd']
+
+            # Обновляем конфигурационный файл
+            try:
+                with open('config.py', 'r') as f:
+                    lines = f.readlines()
+                
+                # Находим строку с паролем и обновляем её
+                for i, line in enumerate(lines):
+                    if line.startswith('passwd = '):
+                        lines[i] = f"passwd = '{passwd or ''}'\n"
+                        break
+                
+                # Записываем изменения обратно в файл
+                with open('config.py', 'w') as f:
+                    f.writelines(lines)
+
+                # Отправляем успешный ответ
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'status': 1, 'message': 'passwd updated'}).encode('utf-8'))
+
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-type', 'text/plain')
+                self.end_headers()
+                self.wfile.write(json.dumps({'status': 0, 'message': f'internal error: {str(e)}'}).encode('utf-8'))
+
 
         else:
             super().do_POST()
