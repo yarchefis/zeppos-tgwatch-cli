@@ -7,4 +7,3 @@ def create_config_file():
         f.write("chats_per_page = 10\n")
         f.write("max_msg = 10\n")
         f.write("key = ''\n")
-        f.write("passwd = ''\n")
