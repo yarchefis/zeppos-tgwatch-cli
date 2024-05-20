@@ -8,8 +8,13 @@ from telethon import TelegramClient
 from prompt_toolkit import prompt
 from art import *
 
-def restart_program():
+# Функция для остановки сервера
+def stop_http_server():
     server.stop_http_server()
+
+# Функция для перезапуска программы
+def restart_program():
+    stop_http_server()
     python = sys.executable
     os.execl(python, python, *sys.argv)
 
@@ -24,6 +29,7 @@ def run_http_server():
 def signal_handler(sig, frame):
     print("\nПрограмма завершена.")
     os._exit(0)
+
 
 
 # Асинхронная функция для запуска Telethon
