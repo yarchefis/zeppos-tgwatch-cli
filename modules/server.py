@@ -289,16 +289,6 @@ def start_http_server():
         # Ожидаем запросов
         httpd.serve_forever()
 
-server_instance = None
-def set_server_instance(cls, instance):
-    cls.server_instance = instance
-
-def stop_http_server():
-    if server_instance:
-        server_instance.shutdown()
-        server_instance.server_close()
-
-
 # Получаем переменные api_id, api_hash и key из config.py
 api_id = config.api_id
 api_hash = config.api_hash
