@@ -9,9 +9,9 @@ from prompt_toolkit import prompt
 from art import *
 
 def restart_program():
+    server.stop_http_server()
     python = sys.executable
-    os.execv(python, [python] + sys.argv)
-
+    os.execl(python, python, *sys.argv)
 
 # Функция для запуска HTTP-сервера в отдельном потоке
 def run_http_server():
