@@ -8,16 +8,6 @@ from telethon import TelegramClient
 from prompt_toolkit import prompt
 from art import *
 
-# Функция для остановки сервера
-def stop_http_server():
-    server.stop_http_server()
-
-# Функция для перезапуска программы
-def restart_program():
-    stop_http_server()
-    python = sys.executable
-    os.execl(python, python, *sys.argv)
-
 # Функция для запуска HTTP-сервера в отдельном потоке
 def run_http_server():
     try:
@@ -29,7 +19,6 @@ def run_http_server():
 def signal_handler(sig, frame):
     print("\nПрограмма завершена.")
     os._exit(0)
-
 
 
 # Асинхронная функция для запуска Telethon
@@ -89,7 +78,7 @@ async def main():
             os.system("cls" if os.name == "nt" else "clear")
             print("Все файлы были стерты до завода.")
             print("Введите 9 и enter чтобы завершить программу, а зтем запустите ее еще раз!")
-            restart_program()
+            
         elif command == "2":
             chats_per_page = input("Введите кол-во чатов на одной странице (для mi band 7 оптимальное значение 10): ")
             max_msg = input("Введите кол-во сообщений (для mi band 7 оптимальное значение 10): ")
@@ -105,7 +94,7 @@ async def main():
             # Записываем обновленные значения в файл конфигурации
             with open('config.py', 'w') as f:
                 f.writelines(lines)
-            restart_program()
+            
         elif command == "100":
             keykey = input("Укажи ключ потом перезапусти приложение!: ")
 
