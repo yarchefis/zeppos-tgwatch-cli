@@ -198,7 +198,6 @@ async def get_me(api_id, api_hash):
             'id': me.id,
             'first_name': me.first_name,
             'last_name': me.last_name,
-            'pass': config.passwd
         }
 
 
