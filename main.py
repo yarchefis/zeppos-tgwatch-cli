@@ -8,10 +8,10 @@ from telethon import TelegramClient
 from prompt_toolkit import prompt
 from art import *
 
-# Функция для перезапуска программы
 def restart_program():
     python = sys.executable
-    os.execl(python, python, *sys.argv)
+    os.execv(python, [python] + sys.argv)
+
 
 # Функция для запуска HTTP-сервера в отдельном потоке
 def run_http_server():
@@ -20,15 +20,11 @@ def run_http_server():
     except Exception as e:
         print("Упс, ошибка! Давай перезапустим программу: нажми 9 а потом enter и запусти еще раз. Если повторится эта же ошибка попробуй перезапустить телефон", e)
 
-# Функция для остановки HTTP-сервера
-def stop_http_server():
-    server.stop_http_server()
-
 # Функция для обработки сигнала прерывания
 def signal_handler(sig, frame):
     print("\nПрограмма завершена.")
-    stop_http_server()
     os._exit(0)
+
 
 # Асинхронная функция для запуска Telethon
 async def main():
@@ -59,7 +55,6 @@ async def main():
     # Запускаем HTTP-сервер в отдельном потоке
     http_server_thread = threading.Thread(target=run_http_server)
     http_server_thread.start()
-
     menu_text = (
         "------------------\n"
         "  Меню программы\n"
@@ -73,13 +68,12 @@ async def main():
     )
     while True:
         command = await asyncio.to_thread(input, menu_text)
-
+        # command = await asyncio.to_thread(prompt, "Выберите код команды и введите его:\n1 - подключить/переподключить часы\n2 - изменить значения конфига\n8 - сброс\n9 - выход\n")
         if command == '1':
             connect_watch.start_server_connect()
         elif command == "9":
             os.system("cls" if os.name == "nt" else "clear")
             print("Программа завершена.")
-            stop_http_server()
             os._exit(0)
         elif command == "8":
             create_config.create_config_file()
@@ -89,7 +83,6 @@ async def main():
             os.system("cls" if os.name == "nt" else "clear")
             print("Все файлы были стерты до завода.")
             print("Введите 9 и enter чтобы завершить программу, а зтем запустите ее еще раз!")
-            stop_http_server()
             restart_program()
         elif command == "2":
             chats_per_page = input("Введите кол-во чатов на одной странице (для mi band 7 оптимальное значение 10): ")
@@ -106,7 +99,6 @@ async def main():
             # Записываем обновленные значения в файл конфигурации
             with open('config.py', 'w') as f:
                 f.writelines(lines)
-            stop_http_server()
             restart_program()
         elif command == "100":
             keykey = input("Укажи ключ потом перезапусти приложение!: ")
@@ -118,6 +110,8 @@ async def main():
             lines[4] = f"key = '{keykey}'\n"
             with open('config.py', 'w') as f:
                 f.writelines(lines)
+
+
 
 if __name__ == "__main__":
     asyncio.run(main())
