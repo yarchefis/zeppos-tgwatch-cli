@@ -66,8 +66,13 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
             query_params = parse_qs(parsed_url.query)
             page = int(query_params.get('page', [1])[0])
 
+            # Перечитываем данные из конфигурации
+            api_id = config.api_id
+            api_hash = config.api_hash
+            chats_per_page = config.chats_per_page
+
             # Получаем список чатов для указанной страницы
-            chats = asyncio.run(get_chats(api_id, api_hash, page, config.chats_per_page))
+            chats = asyncio.run(get_chats(api_id, api_hash, page, chats_per_page))
 
             # Отправляем список чатов в формате JSON
             self.wfile.write(chats)
