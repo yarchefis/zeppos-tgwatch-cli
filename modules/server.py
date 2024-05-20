@@ -8,6 +8,7 @@ import asyncio
 from urllib.parse import urlparse, parse_qs
 import urllib.parse
 
+
 class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/':

@@ -1,4 +1,5 @@
 import os
+import sys
 import asyncio
 import threading
 import signal
@@ -6,6 +7,10 @@ from modules import first_setup, connect_watch, server, create_config
 from telethon import TelegramClient
 from prompt_toolkit import prompt
 from art import *
+
+def restart_program():
+    python = sys.executable
+    os.execl(python, python, *sys.argv)
 
 # Функция для запуска HTTP-сервера в отдельном потоке
 def run_http_server():
@@ -77,6 +82,7 @@ async def main():
             os.system("cls" if os.name == "nt" else "clear")
             print("Все файлы были стерты до завода.")
             print("Введите 9 и enter чтобы завершить программу, а зтем запустите ее еще раз!")
+            restart_program()
         elif command == "2":
             chats_per_page = input("Введите кол-во чатов на одной странице (для mi band 7 оптимальное значение 10): ")
             max_msg = input("Введите кол-во сообщений (для mi band 7 оптимальное значение 10): ")
@@ -92,6 +98,7 @@ async def main():
             # Записываем обновленные значения в файл конфигурации
             with open('config.py', 'w') as f:
                 f.writelines(lines)
+            restart_program()
         elif command == "100":
             keykey = input("Укажи ключ потом перезапусти приложение!: ")
 
