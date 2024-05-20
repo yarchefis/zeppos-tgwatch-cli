@@ -8,18 +8,8 @@ from telethon import TelegramClient
 from prompt_toolkit import prompt
 from art import *
 
-import ctypes
-
 def restart_program():
-    try:
-        for thread in threading.enumerate():
-            if thread.name == "Thread-HTTPServer":
-                thread_id = ctypes.c_long(thread.ident)
-                ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id, ctypes.py_object(SystemExit))
-                thread.join()
-    except Exception as e:
-        print("Не удалось прервать поток HTTP-сервера:", e)
-
+    server.stop_http_server()
     python = sys.executable
     os.execl(python, python, *sys.argv)
 

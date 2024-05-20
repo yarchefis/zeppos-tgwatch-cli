@@ -284,10 +284,20 @@ def start_http_server():
 
     # Задаем адрес и порт для сервера
     Handler = MyHttpRequestHandler
-    with socketserver.TCPServer(("", PORT), Handler) as httpd:
-        print("Сервер успешно запущен на порту", PORT)
-        # Ожидаем запросов
-        httpd.serve_forever()
+    global httpd
+    httpd = socketserver.TCPServer(("", PORT), Handler)
+    
+    print("Сервер успешно запущен на порту", PORT)
+    # Ожидаем запросов
+    httpd.serve_forever()
+
+def stop_http_server():
+    if httpd:
+        print("Останавливаем сервер")
+        httpd.shutdown()
+        httpd.server_close()
+    else:
+        print("Сервер не был запущен")
 
 # Получаем переменные api_id, api_hash и key из config.py
 api_id = config.api_id
