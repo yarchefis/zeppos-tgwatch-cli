@@ -24,20 +24,5 @@ chmod +x run.sh
 
 убедись что ты находишься там где создался файл run.sh
 проверить можно командой ```ls```
-если ты все делал по инструкции в доманшей папке то run.sh в ней. Перейди в нее написав ```cd``` или ```cd ~/```
 после чего запусти его командой ```./run.sh```сервер запустится.
-
-# установка(свой сервер)
-обнови свой сервер если это требуется.    
-далее необходимо установить все пакеты это: git, python3, pip    
-  для систем с пакетным менеджером apt это ```apt install git python3 python-pip -y```
-клонируй репозиторий ```it clone https://github.com/yarchefis/zeppos-tgwatch-cli```
-установи в систему пакеты pip ```pip install telethon prompt_toolkit art --break-system-packages```
-
-для удобства запуска создай bash файл
-```
-echo "#\!/bin/bash" > run.sh
-echo "cd ~/zeppos-tgwatch-cli && python main.py" >> run.sh  
-chmod +x run.sh
-```
-после чего запусти его командой ```./run.sh```сервер запустится.
+ 

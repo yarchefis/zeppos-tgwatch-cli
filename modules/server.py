@@ -3,26 +3,12 @@ import socketserver
 from telethon import TelegramClient
 from telethon.tl.types import User, Channel
 import json
-import config
+import config  # Импортируем переменные api_id, api_hash и key из config.py
 import asyncio
 from urllib.parse import urlparse, parse_qs
 import urllib.parse
 
-
 class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
-    
-
-    def do_GET(self):
-        if self.path == '/':
-            # Обрабатываем запрос к корневому URL
-            self.send_response(200)
-            self.send_header('Content-type', 'text/plain')
-            self.end_headers()
-            self.wfile.write(b'Hello, world!')
-        else:
-            # Если URL не корневой, возвращаем 404
-            self.send_error(404, "Not Found")
-            
     def do_POST(self):
         parsed_url = urlparse(self.path)
         path_components = parsed_url.path.split('/')
@@ -33,7 +19,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(400)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(json.dumps({'status': 0, 'message': 'missing body'}).encode('utf-8'))
+                self.wfile.write(b'Missing request body')
                 return
 
             content_length = int(self.headers['Content-Length'])
@@ -41,7 +27,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(400)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(json.dumps({'status': 0, 'message': 'empty body'}).encode('utf-8'))
+                self.wfile.write(b'Empty request body')
                 return
 
             # Получаем данные из тела запроса
@@ -53,7 +39,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(403)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(json.dumps({'status': 0, 'message': 'error key'}).encode('utf-8'))
+                self.wfile.write(b'Access denied')
                 return
 
             # Если ключ совпадает, продолжаем обработку запроса
@@ -66,13 +52,8 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
             query_params = parse_qs(parsed_url.query)
             page = int(query_params.get('page', [1])[0])
 
-            # Перечитываем данные из конфигурации
-            api_id = config.api_id
-            api_hash = config.api_hash
-            chats_per_page = config.chats_per_page
-
             # Получаем список чатов для указанной страницы
-            chats = asyncio.run(get_chats(api_id, api_hash, page, chats_per_page))
+            chats = asyncio.run(get_chats(api_id, api_hash, page, config.chats_per_page))
 
             # Отправляем список чатов в формате JSON
             self.wfile.write(chats)
@@ -83,7 +64,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(400)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(json.dumps({'status': 0, 'message': 'missing body'}).encode('utf-8'))
+                self.wfile.write(b'Missing request body')
                 return
 
             content_length = int(self.headers['Content-Length'])
@@ -91,7 +72,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(400)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(json.dumps({'status': 0, 'message': 'empty body'}).encode('utf-8'))
+                self.wfile.write(b'Empty request body')
                 return
 
             # Получаем данные из тела запроса
@@ -103,7 +84,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(403)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(json.dumps({'status': 0, 'message': 'error key'}).encode('utf-8'))
+                self.wfile.write(b'Access denied')
                 return
 
             # Если ключ совпадает, продолжаем обработку запроса
@@ -125,7 +106,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(400)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(json.dumps({'status': 0, 'message': 'missing body'}).encode('utf-8'))
+                self.wfile.write(b'Missing request body')
                 return
 
             content_length = int(self.headers['Content-Length'])
@@ -133,7 +114,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(400)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(json.dumps({'status': 0, 'message': 'empty body'}).encode('utf-8'))
+                self.wfile.write(b'Empty request body')
                 return
 
             # Получаем данные из тела запроса
@@ -145,7 +126,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(403)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(json.dumps({'status': 0, 'message': 'error key'}).encode('utf-8'))
+                self.wfile.write(b'Access denied')
                 return
 
             # Если ключ совпадает, продолжаем обработку запроса
@@ -160,14 +141,14 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
 
             # Отправляем сообщение в указанный чат
             asyncio.run(send_message(api_id, api_hash, chat_id, message_text))
-            self.wfile.write(json.dumps({'status': 1, 'message': 'well done'}).encode('utf-8'))
+            self.wfile.write(b'Message sent successfully')
         
         elif self.path.startswith('/api/getme'):
             if 'Content-Length' not in self.headers:
                 self.send_response(400)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(json.dumps({'status': 0, 'message': 'missing body'}).encode('utf-8'))
+                self.wfile.write(b'Missing request body')
                 return
 
             content_length = int(self.headers['Content-Length'])
@@ -175,7 +156,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(400)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(json.dumps({'status': 0, 'message': 'empty body'}).encode('utf-8'))
+                self.wfile.write(b'Empty request body')
                 return
 
             # Получаем данные из тела запроса
@@ -187,7 +168,7 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(403)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
-                self.wfile.write(json.dumps({'status': 0, 'message': 'error key'}).encode('utf-8'))
+                self.wfile.write(b'Access denied')
                 return
             
             self.send_response(200)
@@ -195,6 +176,8 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
             user_info = asyncio.run(get_me(api_id, api_hash))
             self.wfile.write(json.dumps(user_info, ensure_ascii=False, indent=4).encode('utf-8'))
+
+
         else:
             super().do_POST()
 
@@ -205,7 +188,7 @@ async def get_me(api_id, api_hash):
         return {
             'id': me.id,
             'first_name': me.first_name,
-            'last_name': me.last_name,
+            'last_name': me.last_name
         }
 
 
@@ -289,13 +272,10 @@ def start_http_server():
 
     # Задаем адрес и порт для сервера
     Handler = MyHttpRequestHandler
-    global httpd
-    httpd = socketserver.TCPServer(("", PORT), Handler)
-    
-    print("Сервер успешно запущен на порту", PORT)
-    # Ожидаем запросов
-    httpd.serve_forever()
-
+    with socketserver.TCPServer(("", PORT), Handler) as httpd:
+        print("HTTP-сервер запущен на порту", PORT)
+        # Ожидаем запросов
+        httpd.serve_forever()
 
 # Получаем переменные api_id, api_hash и key из config.py
 api_id = config.api_id
